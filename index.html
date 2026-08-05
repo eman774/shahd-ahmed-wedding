@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shahd & Ahmed — Wedding Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Amiri:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#f4ecdd;
+    --cream-deep:#ece0c8;
+    --olive:#3f4a2c;
+    --olive-deep:#2c3420;
+    --sage:#8fa06a;
+    --sage-light:#c3cf9e;
+    --gold:#b6904f;
+    --gold-light:#d9bc84;
+    --ink:#312c1e;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Montserrat', sans-serif;
+    overflow-x:hidden;
+  }
+  /* عرض الصفحة 100% */
+  .page{ width:100%; max-width:100%; margin:0 auto; position:relative; overflow-x:hidden;}
+  .section{ padding:76px 32px; position:relative; text-align:center; }
+
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:5px;
+    text-transform:uppercase;
+    color:var(--sage);
+    margin-bottom:18px;
+    font-weight:500;
+  }
+
+  .leaf-divider{
+    display:flex; align-items:center; justify-content:center;
+    gap:14px; margin:28px auto; width:220px;
+  }
+  .leaf-divider .line{ flex:1; height:1px; background:var(--sage); }
+  .leaf-divider svg{ width:24px; height:24px; flex-shrink:0; }
+
+  /* ENVELOPE INTRO */
+  html.locked, body.locked{ overflow:hidden; height:100%; }
+  .envelope-screen{
+    position:fixed; inset:0; z-index:100;
+    background-color: var(--olive-deep);
+    display: flex; align-items: center; justify-content: center;
+    transition:opacity 0.8s ease 0.4s, visibility 0.8s ease 0.4s;
+  }
+  .envelope-screen.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+  
+  .envelope-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    overflow: hidden;
+    background-color: #636b51;
+  }
+  .envelope-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    transition: transform 1s ease, filter 1s ease;
+  }
+  .envelope-wrapper.open img {
+    transform: scale(1.05);
+    filter: brightness(0.4);
+  }
+  
+  .envelope-tap{
+    position:absolute; left:50%; bottom:10%; transform:translateX(-50%);
+    z-index:5; font-size:12px; letter-spacing:3px; text-transform:uppercase;
+    color: #fff; text-shadow: 0px 2px 5px rgba(0,0,0,0.6);
+    animation:bob 1.8s ease-in-out infinite;
+    transition:opacity .4s ease;
+  }
+  .envelope-wrapper.open .envelope-tap{ opacity:0; }
+
+  /* HERO */
+  .hero{
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('image_3b3ae0.png') center/cover no-repeat;
+    background-attachment: fixed;
+    color: var(--cream);
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    position:relative; overflow:hidden;
+  }
+  .hero .vine{ position:absolute; top:0; height:100%; width:76px; z-index:1; }
+  .hero .vine-l{ left:6px; }
+  .hero .vine-r{ right:6px; transform:scaleX(-1); }
+  .hero .vine path{
+    fill:none; stroke:var(--gold-light); stroke-width:1.6; stroke-linecap:round;
+    stroke-dasharray:900; stroke-dashoffset:900;
+  }
+  .hero .vine .leaf{ opacity:0; }
+  body.revealed .hero .vine path{ animation:draw 2.2s cubic-bezier(.4,0,.2,1) forwards; animation-delay:.2s; }
+  body.revealed .hero .vine .leaf{ animation:leafIn .8s ease forwards; }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  @keyframes leafIn{ from{opacity:0; transform:scale(.8);} to{opacity:1; transform:scale(1);} }
+
+  /* خليت عرض الكلام 100% عشان يملى الشاشة */
+  .hero-content{
+    position:relative; z-index:2; padding:40px 32px 60px; max-width:100%; margin: 0 auto;
+    opacity:0;
+  }
+  body.revealed .hero-content{ animation:fadeUp 1.2s ease forwards; animation-delay:1.7s; }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);} }
+
+  .hero-eyebrow{ font-size:12px; letter-spacing:5px; text-transform:uppercase; color:var(--cream); margin-bottom:22px; text-shadow: 1px 1px 4px rgba(0,0,0,0.6);}
+  .names{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
+    font-size:60px; line-height:1.08; color:#ffffff;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+  }
+  .amp{
+    display:inline-block; font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:32px; color:var(--gold-light); margin:0 12px; vertical-align:2px;
+  }
+  .hero-sub{ margin-top:24px; font-size:13px; color:var(--cream); letter-spacing:2px; text-shadow: 1px 1px 4px rgba(0,0,0,0.6);}
+  .hero-date-tag{
+    margin-top:16px; font-family:'Cormorant Garamond', serif; font-size:19px;
+    color:var(--gold-light); letter-spacing:3px; font-weight:600; text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+  }
+
+  .scroll-cue{
+    position:absolute; bottom:22px; left:50%; transform:translateX(-50%);
+    z-index:2; display:flex; flex-direction:column; align-items:center; gap:6px;
+    opacity:0;
+  }
+  body.revealed .scroll-cue{ animation:fadeUp 1s ease forwards; animation-delay:2.3s; }
+  .scroll-cue span{ width:1px; height:26px; background:var(--gold-light); display:block; }
+  .scroll-cue svg{ width:16px; height:16px; animation:bob 1.8s ease-in-out infinite; stroke:var(--gold-light);}
+  @keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
+
+  /* VERSE */
+  .verse-section{ background:var(--olive-deep); }
+  .verse-mark{ font-family:'Amiri', serif; font-size:30px; color:var(--gold-light); margin-bottom:14px; }
+  .verse-ar{
+    font-family:'Amiri', serif; font-size:21px; line-height:2.1;
+    color:var(--cream); max-width:100%; margin:0 auto; direction:rtl;
+  }
+  .verse-en{
+    font-family:'Cormorant Garamond', serif; font-style:italic; font-size:18px;
+    line-height:1.8; color:var(--sage-light); opacity:0.9; max-width:100%; margin:18px auto 0;
+  }
+  .verse-ref{ margin-top:18px; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--sage-light); }
+  .verse-section .leaf-divider .line{ background:var(--sage); }
+
+  /* INVITE TEXT */
+  .invite-section{ background:var(--cream-deep); }
+  .invite-text{
+    font-size:16px; line-height:2; color:var(--ink); max-width:100%; margin:0 auto; font-weight:300;
+  }
+  .invite-text .bold-name{
+    font-family:'Cormorant Garamond', serif; font-weight:600; font-size:30px;
+    color:var(--olive); display:block; margin:16px 0;
+  }
+
+  /* STORY STRIP */
+  .story-strip-section{ background:var(--olive); padding-top:50px; padding-bottom:50px; }
+  .story-strip{
+    display:flex; justify-content:center;
+    gap:0; max-width:100%; margin:0 auto; flex-wrap:wrap;
+  }
+  .story-item{ flex:1; min-width:120px; padding:0 14px; }
+  .story-item .num{ font-family:'Cormorant Garamond', serif; font-size:15px; color:var(--gold-light); letter-spacing:2px; margin-bottom:6px; }
+  .story-item .label{ font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sage-light); }
+
+  /* COUNTDOWN */
+  .countdown-section{ background:var(--cream-deep); }
+  .count-title{ font-family:'Cormorant Garamond', serif; font-style:italic; font-size:26px; margin-bottom:8px; color:var(--olive-deep); }
+  .count-date{ font-size:13px; letter-spacing:3px; text-transform:uppercase; color:var(--sage); margin-bottom:36px; }
+  .countdown{ display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin: 0 auto; max-width: 100%;}
+  .count-box{
+    background:var(--cream); border:1px solid var(--sage);
+    border-radius:4px; padding:18px 16px; min-width:76px;
+  }
+  .count-num{ font-size:32px; font-weight:500; color:var(--gold); font-variant-numeric:tabular-nums; }
+  .count-label{ font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--sage); margin-top:6px; }
+
+  /* DETAILS */
+  .details-section{ background:var(--olive-deep); }
+  .detail-card{
+    display:flex; align-items:flex-start; gap:16px; text-align:left;
+    max-width:100%; margin:0 auto 24px; padding:20px 22px;
+    background:rgba(244,236,221,0.05); border-left:3px solid var(--gold);
+  }
+  .detail-card svg{ width:26px; height:26px; flex-shrink:0; margin-top:2px; }
+  .detail-label{ font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--sage-light); margin-bottom:5px; }
+  .detail-value{ font-size:18px; color:var(--cream); font-weight:500; font-family:'Cormorant Garamond', serif; }
+  .detail-sub{ font-size:13px; color:var(--sage-light); opacity:0.9; margin-top:3px; }
+
+  /* ستايل لينك الخريطة الجديد عشان يدي تأثير لما نقف عليه */
+  .map-link {
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+  .map-link:hover {
+    transform: translateY(-3px);
+    background: rgba(244,236,221,0.1);
+  }
+
+  /* PHOTO */
+  .photo-section{ background:var(--cream); }
+  .photo-frame{
+    width:260px; height:260px; margin:0 auto;
+    border-radius:50%; border:2px solid var(--gold); padding:10px;
+    -webkit-touch-callout:none; -webkit-user-select:none; user-select:none;
+  }
+  .photo-inner{
+    width:100%; height:100%; border-radius:50%;
+    border:1px dashed var(--sage); background:var(--cream-deep);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    color:var(--sage); gap:8px;
+    background-image: url('Gemini_Generated_Image_zfdtnxzfdtnxzfdt.png');
+    background-size: cover;
+    background-position: center;
+    -webkit-touch-callout:none; -webkit-user-select:none; user-select:none;
+    -webkit-user-drag:none; pointer-events:none;
+  }
+  .photo-inner svg{ display:none; }
+  .photo-inner span{ display:none; }
+  .photo-caption{
+    margin-top:24px; font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:18px; color:var(--olive);
+  }
+
+  /* GUESTBOOK */
+  .guest-section{ background:var(--olive-deep); color:var(--cream); }
+  .guest-title{ font-family:'Cormorant Garamond', serif; font-style:italic; font-size:26px; margin-bottom:6px; color:var(--cream); }
+  .guest-sub{ font-size:13px; color:var(--sage-light); max-width:100%; margin:0 auto 30px; line-height:1.7; }
+  .guest-form{ max-width:100%; margin:0 auto; text-align:left; }
+  .guest-form label{ font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--sage-light); display:block; margin-bottom:6px; }
+  .guest-form input, .guest-form textarea{
+    width:100%; background:rgba(244,236,221,0.06); border:1px solid var(--sage);
+    color:var(--cream); font-family:'Montserrat', sans-serif; font-size:14px;
+    padding:12px 14px; border-radius:3px; margin-bottom:18px; outline:none;
+  }
+  .guest-form input::placeholder, .guest-form textarea::placeholder{ color:rgba(244,236,221,0.4); }
+  .guest-form textarea{ resize:vertical; min-height:80px; font-family:'Montserrat', sans-serif; }
+  .guest-form button{
+    width:100%; background:var(--gold); color:var(--olive-deep); border:none;
+    padding:13px; font-size:12px; letter-spacing:2px; text-transform:uppercase;
+    font-weight:600; border-radius:3px; cursor:pointer; transition:background .2s;
+  }
+  .guest-form button:hover{ background:var(--gold-light); }
+  .wa-btn-row{ display:flex; gap:12px; flex-wrap:wrap; }
+  .wa-btn{
+    flex:1; min-width:150px; display:flex; align-items:center; justify-content:center; gap:8px;
+    background:#25D366; color:#0b3d24; border:none;
+    padding:13px 10px; font-size:12px; letter-spacing:1px; text-transform:uppercase;
+    font-weight:600; border-radius:3px; cursor:pointer; transition:background .2s, transform .2s;
+  }
+  .wa-btn svg{ width:16px; height:16px; flex-shrink:0; }
+  .wa-btn:hover{ background:#2fe07a; transform:translateY(-2px); }
+  .wa-btn.sent{ background:var(--sage); color:var(--olive-deep); }
+  .guest-confirm{
+    display:none; max-width:100%; margin:0 auto; text-align:center;
+    border:1px solid var(--sage); padding:26px 24px; border-radius:4px;
+  }
+  .guest-confirm.show{ display:block; }
+  .guest-confirm .check{ font-size:26px; color:var(--gold-light); margin-bottom:10px; }
+  .guest-confirm .msg{ font-family:'Cormorant Garamond', serif; font-size:19px; font-style:italic; color:var(--cream); line-height:1.6; margin-bottom:10px; }
+  .guest-confirm .from{ font-size:12px; letter-spacing:1px; color:var(--sage-light); }
+  .guest-note{ margin-top:22px; font-size:11px; color:var(--sage-light); opacity:0.6; max-width:100%; margin-left:auto; margin-right:auto; line-height:1.6; }
+
+  /* FOOTER */
+  .footer{ background:var(--cream-deep); color:var(--sage); padding:54px 32px 64px; }
+  .footer-names{ font-family:'Cormorant Garamond', serif; font-size:26px; color:var(--olive-deep); margin-bottom:10px; }
+  .footer-note{ font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--sage); opacity:0.9; }
+
+  /* إعدادات زر إيقاف وتشغيل الصوت */
+  #mute-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--gold);
+    color: var(--olive-deep);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: none; /* مخفي لحد ما الظرف يتفتح */
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+  #mute-btn:hover {
+    transform: scale(1.1);
+  }
+
+  @media (max-width:480px){
+    .names{ font-size:48px; }
+    .section{ padding:56px 20px; }
+    .count-box{ min-width:62px; padding:14px 8px; }
+    .count-num{ font-size:24px; }
+    .story-strip{ flex-direction:column; gap:20px; }
+  }
+</style>
+</head>
+<body class="locked">
+
+<!-- ملف الصوت -->
+<audio id="bg-music" loop>
+  <source src="Trimmed_sound.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<!-- زر التحكم في الصوت -->
+<button id="mute-btn" onclick="toggleMute()" aria-label="Toggle audio">🔊</button>
+
+<!-- ENVELOPE INTRO -->
+<div class="envelope-screen" id="envelopeScreen">
+  <div class="envelope-wrapper" id="envelope" role="button" tabindex="0" aria-label="Open the wedding invitation">
+    <!-- صورة الظرف -->
+    <img src="ChatGPT Image Aug 4, 2026, 01_15_24 AM.png" alt="Wedding Envelope">
+    <div class="envelope-tap">Tap to open</div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <svg class="vine vine-l" viewBox="0 0 80 800" fill="none" preserveAspectRatio="xMidYMax slice">
+      <path d="M40 790 C 14 700, 60 640, 32 560 C 8 486, 58 420, 30 350 C 8 286, 54 220, 34 150 C 18 96, 46 50, 40 10"/>
+      <ellipse class="leaf" cx="20" cy="700" rx="12" ry="5.5" fill="#8fa06a" transform="rotate(-30 20 700)" style="animation-delay:1.4s"/>
+      <ellipse class="leaf" cx="56" cy="640" rx="10" ry="5" fill="#c3cf9e" transform="rotate(25 56 640)" style="animation-delay:1.5s"/>
+      <ellipse class="leaf" cx="14" cy="560" rx="11" ry="5" fill="#8fa06a" transform="rotate(-20 14 560)" style="animation-delay:1.6s"/>
+      <ellipse class="leaf" cx="52" cy="486" rx="10" ry="5" fill="#c3cf9e" transform="rotate(20 52 486)" style="animation-delay:1.7s"/>
+      <ellipse class="leaf" cx="16" cy="420" rx="10" ry="4.5" fill="#8fa06a" transform="rotate(-25 16 420)" style="animation-delay:1.8s"/>
+      <ellipse class="leaf" cx="50" cy="350" rx="9" ry="4.5" fill="#c3cf9e" transform="rotate(18 50 350)" style="animation-delay:1.9s"/>
+      <ellipse class="leaf" cx="18" cy="286" rx="9" ry="4" fill="#8fa06a" transform="rotate(-18 18 286)" style="animation-delay:2s"/>
+      <ellipse class="leaf" cx="46" cy="220" rx="8" ry="4" fill="#c3cf9e" transform="rotate(15 46 220)" style="animation-delay:2.1s"/>
+      <ellipse class="leaf" cx="22" cy="150" rx="8" ry="3.5" fill="#8fa06a" transform="rotate(-15 22 150)" style="animation-delay:2.2s"/>
+      <circle class="leaf" cx="34" cy="452" r="3" fill="#b6904f" style="animation-delay:1.75s"/>
+      <circle class="leaf" cx="32" cy="253" r="2.4" fill="#d9bc84" style="animation-delay:2.05s"/>
+    </svg>
+    <svg class="vine vine-r" viewBox="0 0 80 800" fill="none" preserveAspectRatio="xMidYMax slice">
+      <path d="M40 790 C 14 700, 60 640, 32 560 C 8 486, 58 420, 30 350 C 8 286, 54 220, 34 150 C 18 96, 46 50, 40 10"/>
+      <ellipse class="leaf" cx="20" cy="700" rx="12" ry="5.5" fill="#8fa06a" transform="rotate(-30 20 700)" style="animation-delay:1.45s"/>
+      <ellipse class="leaf" cx="56" cy="640" rx="10" ry="5" fill="#c3cf9e" transform="rotate(25 56 640)" style="animation-delay:1.55s"/>
+      <ellipse class="leaf" cx="14" cy="560" rx="11" ry="5" fill="#8fa06a" transform="rotate(-20 14 560)" style="animation-delay:1.65s"/>
+      <ellipse class="leaf" cx="52" cy="486" rx="10" ry="5" fill="#c3cf9e" transform="rotate(20 52 486)" style="animation-delay:1.75s"/>
+      <ellipse class="leaf" cx="16" cy="420" rx="10" ry="4.5" fill="#8fa06a" transform="rotate(-25 16 420)" style="animation-delay:1.85s"/>
+      <ellipse class="leaf" cx="50" cy="350" rx="9" ry="4.5" fill="#c3cf9e" transform="rotate(18 50 350)" style="animation-delay:1.95s"/>
+      <ellipse class="leaf" cx="18" cy="286" rx="9" ry="4" fill="#8fa06a" transform="rotate(-18 18 286)" style="animation-delay:2.05s"/>
+      <ellipse class="leaf" cx="46" cy="220" rx="8" ry="4" fill="#c3cf9e" transform="rotate(15 46 220)" style="animation-delay:2.15s"/>
+      <ellipse class="leaf" cx="22" cy="150" rx="8" ry="3.5" fill="#8fa06a" transform="rotate(-15 22 150)" style="animation-delay:2.25s"/>
+      <circle class="leaf" cx="34" cy="452" r="3" fill="#b6904f" style="animation-delay:1.8s"/>
+      <circle class="leaf" cx="32" cy="253" r="2.4" fill="#d9bc84" style="animation-delay:2.1s"/>
+    </svg>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">Together with their families</div>
+      <div class="names">Shahd<span class="amp">&amp;</span>Ahmed</div>
+      <div class="hero-sub">request the honor of your presence</div>
+      <div class="hero-date-tag">08 · 08 · 2026</div>
+    </div>
+
+    <div class="scroll-cue" aria-hidden="true">
+      <span></span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#d9bc84" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </section>
+
+  <!-- VERSE -->
+  <section class="section verse-section">
+    <div class="verse-mark">﷽</div>
+    <p class="verse-ar">
+      وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا
+      وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً إِنَّ فِي ذَلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ
+    </p>
+    <p class="verse-en">
+      "And among His signs is that He created for you mates from among yourselves,
+      that you may dwell in tranquility with them, and He placed between you affection and mercy.
+      Truly, in that are signs for a people who reflect."
+    </p>
+    <div class="verse-ref">Surah Ar-Rum · Verse 21</div>
+    <div class="leaf-divider">
+      <span class="line"></span>
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2 C 6 8, 6 16, 12 22 C 18 16, 18 8, 12 2 Z" stroke="#8fa06a" stroke-width="1.3"/><path d="M12 4 V 20" stroke="#8fa06a" stroke-width="0.8"/></svg>
+      <span class="line"></span>
+    </div>
+  </section>
+
+  <!-- INVITE TEXT -->
+  <section class="section invite-section">
+    <div class="eyebrow">The invitation</div>
+    <p class="invite-text">
+      It would mean the world to us to have you by our side<br>
+      as we celebrate the wedding of
+      <span class="bold-name">Shahd &amp; Ahmed</span>
+      Your presence is the greatest gift of all.
+    </p>
+  </section>
+
+  <!-- STORY STRIP -->
+  <section class="section story-strip-section">
+    <div class="story-strip">
+      <div class="story-item"><div class="num">I</div><div class="label">The ceremony</div></div>
+      <div class="story-item"><div class="num">II</div><div class="label">The celebration</div></div>
+      <div class="story-item"><div class="num">III</div><div class="label">A night to remember</div></div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section class="section countdown-section">
+    <div class="count-title">Counting down to forever</div>
+    <div class="count-date">Saturday, August 8, 2026 &nbsp;·&nbsp; 9:00 PM</div>
+    <div class="countdown" id="countdown">
+      <div class="count-box"><div class="count-num" id="cd-days">00</div><div class="count-label">Days</div></div>
+      <div class="count-box"><div class="count-num" id="cd-hours">00</div><div class="count-label">Hours</div></div>
+      <div class="count-box"><div class="count-num" id="cd-mins">00</div><div class="count-label">Minutes</div></div>
+      <div class="count-box"><div class="count-num" id="cd-secs">00</div><div class="count-label">Seconds</div></div>
+    </div>
+  </section>
+
+  <!-- DETAILS -->
+  <section class="section details-section">
+    <div class="eyebrow">The details</div>
+    <div class="detail-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#b6904f" stroke-width="1.5"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+      <div>
+        <div class="detail-label">Date</div>
+        <div class="detail-value">Saturday, August 8, 2026</div>
+      </div>
+    </div>
+    <div class="detail-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#b6904f" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <div>
+        <div class="detail-label">Time</div>
+        <div class="detail-value">9:00 PM</div>
+      </div>
+    </div>
+
+    <a href="https://www.google.com/maps/place/%D9%86%D8%A7%D8%AF%D9%8A+%D8%B7%D9%88%D8%AE+%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A%E2%80%AD/@30.3572742,31.1995166,21z/data=!4m6!3m5!1s0x14587396812d6ee5:0x2ca6d2a8291f55a1!8m2!3d30.3568618!4d31.1997504!16s%2Fg%2F1jgm0jlb8?entry=ttu&g_ep=EgoyMDI2MDgwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="detail-card map-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#b6904f" stroke-width="1.5"><path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      <div>
+        <div class="detail-label">Venue</div>
+        <div class="detail-value">Alf Leila We Leila Hall</div>
+        <div class="detail-sub">Toukh, Qalyubia, Egypt</div>
+        <div class="detail-sub" style="color: var(--gold-light); font-size: 11px; margin-top: 6px; text-decoration: underline;">Open in Google Maps ↗</div>
+      </div>
+    </a>
+  </section>
+
+  <!-- PHOTO -->
+  <section class="section photo-section">
+    <div class="eyebrow">The couple</div>
+    <div class="photo-frame" oncontextmenu="return false;">
+      <div class="photo-inner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.5"/><path d="M21 17l-4.5-4.5a2 2 0 0 0-2.8 0L9 17"/><path d="M8 6l1.2-2h5.6L16 6"/></svg>
+        <span>Photo of the couple</span>
+      </div>
+    </div>
+    <p class="photo-caption">"Every love story is beautiful, but ours is my favorite."</p>
+  </section>
+
+  <!-- GUESTBOOK -->
+  <section class="section guest-section">
+    <div class="eyebrow" style="color:var(--sage-light);">Leave your wishes</div>
+    <div class="guest-title">A note for the couple</div>
+    <p class="guest-sub">Tell Shahd &amp; Ahmed who's coming and what you wish for them — then send it to both of them on WhatsApp.</p>
+
+    <form class="guest-form" id="wishForm">
+      <label for="guestName">Your name</label>
+      <input type="text" id="guestName" placeholder="e.g. Mona Ahmed" required>
+      <label for="guestWish">Your wish for the couple</label>
+      <textarea id="guestWish" placeholder="Wishing you a lifetime of love and happiness..." required></textarea>
+
+      <div class="wa-btn-row">
+        <button type="button" class="wa-btn" id="sendToShahd">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.7.8-.8 1-.2.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5.1-.1.2-.3.4-.4.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5 0-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+          Send to Shahd
+        </button>
+        <button type="button" class="wa-btn" id="sendToAhmed">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.7.8-.8 1-.2.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5.1-.1.2-.3.4-.4.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5 0-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+          Send to Ahmed
+        </button>
+      </div>
+    </form>
+
+    <div class="guest-confirm" id="guestConfirm">
+      <div class="check">✦</div>
+      <div class="msg" id="confirmMsg">"Wishing you a lifetime of love and happiness..."</div>
+      <div class="from" id="confirmFrom">— With love, Mona Ahmed</div>
+    </div>
+
+    <p class="guest-note">Fill in your name and wish above, then tap <strong>both</strong> buttons one after the other — each opens WhatsApp with your message ready, just tap send in each chat.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <section class="footer">
+    <div class="leaf-divider" style="width:160px;">
+      <span class="line" style="background:#8fa06a"></span>
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2 C 6 8, 6 16, 12 22 C 18 16, 18 8, 12 2 Z" stroke="#c3cf9e" stroke-width="1.3"/></svg>
+      <span class="line" style="background:#8fa06a"></span>
+    </div>
+    <div class="footer-names">Shahd &amp; Ahmed</div>
+    <div class="footer-note">We can't wait to celebrate with you</div>
+  </section>
+
+</div>
+
+<script>
+  const weddingDate = new Date("2026-08-08T21:00:00+03:00").getTime();
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function updateCountdown(){
+    const now = new Date().getTime();
+    const diff = weddingDate - now;
+    const days = document.getElementById('cd-days');
+    const hours = document.getElementById('cd-hours');
+    const mins = document.getElementById('cd-mins');
+    const secs = document.getElementById('cd-secs');
+    if(diff <= 0){
+      days.textContent='00'; hours.textContent='00'; mins.textContent='00'; secs.textContent='00';
+      return;
+    }
+    const d = Math.floor(diff / (1000*60*60*24));
+    const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const s = Math.floor((diff % (1000*60)) / 1000);
+    days.textContent = pad(d);
+    hours.textContent = pad(h);
+    mins.textContent = pad(m);
+    secs.textContent = pad(s);
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  const confirmBox = document.getElementById('guestConfirm');
+  const shahdNumber = '201044629051';
+  const ahmedNumber = '201004653451';
+  const btnShahd = document.getElementById('sendToShahd');
+  const btnAhmed = document.getElementById('sendToAhmed');
+
+  function buildMessage(){
+    const name = document.getElementById('guestName').value.trim();
+    const wish = document.getElementById('guestWish').value.trim();
+    if(!name || !wish){
+      alert('من فضلك اكتبي اسمك وأمنيتك للعروسين الأول 🙏');
+      return null;
+    }
+    return {
+      name: name, wish: wish,
+      text: 'Wedding wishes for Shahd & Ahmed \nFrom: ' + name + '\n"' + wish + '"'
+    };
+  }
+
+  function showConfirm(name, wish){
+    document.getElementById('confirmMsg').textContent = '"' + wish + '"';
+    document.getElementById('confirmFrom').textContent = '— With love, ' + name;
+    confirmBox.classList.add('show');
+  }
+
+  btnShahd.addEventListener('click', function(){
+    const data = buildMessage();
+    if(!data) return;
+    window.open('https://wa.me/' + shahdNumber + '?text=' + encodeURIComponent(data.text), '_blank');
+    btnShahd.classList.add('sent');
+    btnShahd.textContent = 'Sent to Shahd ✓';
+    showConfirm(data.name, data.wish);
+  });
+
+  btnAhmed.addEventListener('click', function(){
+    const data = buildMessage();
+    if(!data) return;
+    window.open('https://wa.me/' + ahmedNumber + '?text=' + encodeURIComponent(data.text), '_blank');
+    btnAhmed.classList.add('sent');
+    btnAhmed.textContent = 'Sent to Ahmed ✓';
+    showConfirm(data.name, data.wish);
+  });
+
+  // كود تشغيل الصوت
+  const bgMusic = document.getElementById('bg-music');
+  const muteBtn = document.getElementById('mute-btn');
+  let isPlaying = false;
+
+  function toggleMute() {
+    if (isPlaying) {
+      bgMusic.pause();
+      muteBtn.textContent = '🔈';
+    } else {
+      bgMusic.play();
+      muteBtn.textContent = '🔊';
+    }
+    isPlaying = !isPlaying;
+  }
+
+  const envelope = document.getElementById('envelope');
+  const envelopeScreen = document.getElementById('envelopeScreen');
+  
+  function openEnvelope(){
+    if(envelope.classList.contains('open')) return;
+    envelope.classList.add('open');
+    document.body.classList.add('revealed');
+    
+    // تشغيل الصوت لما الظرف يتفتح
+    bgMusic.play().then(() => {
+      isPlaying = true;
+      muteBtn.style.display = 'flex'; // إظهار زرار الصوت
+    }).catch(error => {
+      console.log("Audio play failed:", error);
+    });
+
+    setTimeout(function(){
+      envelopeScreen.classList.add('hidden');
+      document.body.classList.remove('locked');
+    }, 600);
+  }
+  envelope.addEventListener('click', openEnvelope);
+  envelope.addEventListener('keypress', function(e){ if(e.key === 'Enter' || e.key === ' ') openEnvelope(); });
+</script>
+</body>
+</html>
